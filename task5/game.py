@@ -21,6 +21,7 @@ class Room:
         get_details: Get the details in the room
         get_item: Get the item in the room
     """
+
     description: str = ""
     character: Enemy | None = None
     item: Item | None = None
@@ -108,7 +109,25 @@ class Room:
 
 
 class Enemy:
-    """A class for an enemy in the game."""
+    """A class for an enemy in the game.
+
+    Attributes:
+        name (str): The name of the enemy
+        description (str): The description of the enemy
+        conversation (str): The conversation of the enemy
+        weakness (str): The weakness of the enemy
+        defeated_times (int), a class variable: The number of times
+                the enemy has been defeated
+
+    Methods:
+        set_conversation: Set the conversation of the enemy
+        set_weakness: Set the weakness of the enemy
+        fight: Fight the enemy
+        describe: Describe the enemy
+        talk: Talk to the enemy
+        get_defeated: Get the number of times any enemy has been defeated
+    """
+
     conversation: str
     weakness: str
     defeated_times: int = 0
@@ -162,16 +181,27 @@ class Enemy:
         print(f"Enemy says: {self.conversation}")
 
     def get_defeated(self) -> int:
-        """Get the number of times the enemy has been defeated.
+        """Get the number of times any enemy has been defeated.
 
         Returns:
-            int: The number of times the enemy has been defeated
+            int: The number of times any enemy has been defeated
         """
         return Enemy.defeated_times
 
 
 class Item:
-    """A class for an item in the game."""
+    """A class for an item in the game.
+
+    Attributes:
+        name (str): The name of the item
+        description (str): The description of the item
+
+    Methods:
+        set_description: Set the description of the item
+        describe: Describe the item
+        get_name: Get the name of the item
+    """
+
     description: str
 
     def __init__(self, name: str) -> None:

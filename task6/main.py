@@ -20,6 +20,11 @@ class Map:
     Attributes:
         rooms (list[list[Room]]): A 2D list of rooms.
         player (Player): The player character.
+        starting_room (Room): The starting room.
+
+    Methods:
+        enter_room: Enter a room.
+        move: Move to a neighbouring room.
     """
 
     def __init__(self, player: Player) -> None:
@@ -41,13 +46,14 @@ A mosquitto is saying that you should not have drunk the milk.",
         self.rooms[0].append(self.starting_room)
         room = Room("Room.", "Just a room. Oh look! A cat! It says his name is Mykola")
         room.item = Weapon("cat", "milk")
-        self.rooms[0].append(room)
         white_room = Room(
             "A white room",
             "There is a milk that you drank. You can offer it to a cat in the future.",
         )
         white_room.item = Weapon("milk", "mosquitto")
-        self.rooms[1].append(white_room)
+        weapon_rooms = [room, white_room]
+        shuffle(weapon_rooms)
+        self.rooms[1].append(weapon_rooms[0])
         other_rooms = [
             Room("A bloody red room", "A bloody room. Ouch, something bit me."),
             Room("A completely empty room", ""),
@@ -64,6 +70,7 @@ A mosquitto is saying that you should not have drunk the milk.",
                 "A white room. There is a cat. Oh, no cat... \
 This white substance drives you crazy.",
             ),
+            weapon_rooms[1]
         ]
         end_room = EndRoom("The last room.", "Here is a cake", 8)
         other_rooms[0].set_character(Enemy("A blood master", Weapon("mosquitto")))
@@ -78,9 +85,9 @@ meet you. I'm totally not suspicious so go to the next room, quickly!",
         other_rooms[4].set_character(Enemy("Milk", Weapon("milk")))
         end_room.item = Item("cake")
         shuffle(other_rooms)
-        self.rooms[0].append(other_rooms[0])
-        self.rooms[1] += other_rooms[1:3]
-        self.rooms[2] += other_rooms[3:]
+        self.rooms[0] += other_rooms[0:2]
+        self.rooms[1] += other_rooms[2:4]
+        self.rooms[2] += other_rooms[4:]
         self.rooms[2].append(end_room)
         for i in range(3):
             for j in range(3):
@@ -169,7 +176,15 @@ meet you. I'm totally not suspicious so go to the next room, quickly!",
 
 
 class Game:
-    """A game."""
+    """A game.
+
+    Attributes:
+        player (Player): The player.
+        map (Map): The map.
+
+    Methods:
+        start: Start the game.
+    """
 
     def __init__(self) -> None:
         """Initialize the game."""

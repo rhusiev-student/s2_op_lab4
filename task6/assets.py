@@ -33,7 +33,7 @@ class Room:
         name (str): The name of the room.
         description (str): A description of the room.
         neighbours (dict): A dictionary of neighbouring rooms.
-        weapon (Weapon): An item in the room.
+        item (Item): An item in the room.
         character (Character): A character in the room.
 
     Methods:
@@ -73,7 +73,7 @@ class EndRoom(Room):
     Attributes:
         name (str): The name of the room.
         description (str): A description of the room.
-        neighbours (dict): A dictionary of neighbouring rooms.
+        item (Item): An item in the room.
         cleared_rooms_needed (int): The number of rooms that need to be cleared to enter.
     """
 
@@ -108,12 +108,15 @@ class Player(Character):
     """The player character.
 
     Attributes:
-        health (int): The player's health.
+        name (str): The name of the character.
         weapons (list[Weapon]): The player's weapons.
         cleared_rooms (list[Room]): The rooms that have been cleared.
+        current_room (tuple[int, int]): The player's current room.
 
     Methods:
+        clear_room: Clear a room.
         fight: Fight against an enemy.
+        pick_up_item: Pick up an item.
     """
 
     def __init__(self, name: str, current_room: tuple[int, int] = (0, 0)) -> None:
@@ -152,7 +155,7 @@ class Player(Character):
         """Pick up an item.
 
         Args:
-            room (Room): The room to pick up the weapon from.
+            room (Room): The room to pick up the item from.
 
         Returns:
             bool: True if the player wins, False otherwise.
@@ -175,7 +178,9 @@ class Enemy(Character):
     """An enemy character.
 
     Attributes:
+        name (str): The name of the character.
         weapon (Weapon): The enemy's weapon.
+        defeated (bool): Whether the enemy has been defeated.
     """
 
     def __init__(self, name: str, weapon: Weapon) -> None:
@@ -188,6 +193,7 @@ class Friend(Character):
     """A friendly character.
 
     Attributes:
+        name (str): The name of the character.
         dialogue (str): The friendly character's dialogue.
 
     Methods:
